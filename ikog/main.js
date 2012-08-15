@@ -1,27 +1,32 @@
 define(
 	[
-	    "dojo/query", "dojo/text!ikog/banner.txt", "amitu/NodeList-on_enter",
-	    "amitu/NodeList-focus", 
+	    "dojo/query", "dojo/parser", "dojo/text!ikog/banner.txt", 
+		"dojo/dom-construct", "amitu/NodeList-on_enter", "amitu/NodeList-focus",
 	], 
-	function(query, banner) {
-		return {
+	function(query, parser, banner, dc) {
+		var ikog = {
 			main: function() {
+				parser.parse();
 				Parse.initialize(
 	                "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
 	                "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
 	            );
 				query("#inp").focus().on_enter(function(line){
-					this.println(line)
+					ikog.println(line);
 				});
-				this.print_banner();
+				ikog.print_banner();
 			},
 			println: function(msg){
 				console.log(msg);
+				dc.place("<pre class='log_msg'>" + msg + "</pre>", "log");
+				// TODO: scroll to top
 			},
 			print_banner: function () {
-				console.log(banner);
-				this.println("Enter HELP for instructions.");	      
+				ikog.println(banner);
+				ikog.println("Enter HELP for instructions.");	      
 			}
 		}
+		ikog.$log = query("#log");
+		return ikog;
 	}
 );
