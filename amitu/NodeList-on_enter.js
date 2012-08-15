@@ -3,14 +3,14 @@ define(
 	function(query, lang) {
 		var NodeList = query.NodeList;
 		lang.extend(NodeList, {
-			on_enter: function(callback){
+			on_enter: function(callback, allow_empty){
 				var ENTER_KEY = 13;      
 				this.on("keypress", function(evt){
 	                var key = evt.charCode || evt.keyCode || 0;
 	                if (key != ENTER_KEY) return;
 					var $this = query(this);
 	                var value = $this.val();
-	                if (value == "") return;
+	                if (!allow_empty && value == "") return;
 
 	                if (!callback(value)) $this.val("");
 	                return false;
