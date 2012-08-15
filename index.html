@@ -28,48 +28,43 @@
             }
             pre { margin: 0px; padding-bottom: 20px;}
         </style>
+        <script>
+            var dojoConfig = {
+                async: true,
+                packages: [{
+                    name: "amitu",
+                    location: document.location + "amitu"
+                }]
+            };
+        </script>
     </head>
     <body>
         <div id="log"></div>
         <input id="inp">
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-        <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.0.15.min.js"></script>
-        <script type="text/javascript">
-            $.fn.on_enter = function (callback) {
-                var ENTER_KEY = 13;
-                return this.keypress(function (e){
-                    var key = e.charCode || e.keyCode || 0;
-                    if (key != ENTER_KEY) return;
-                    var value = $(this).val();
-                    if (value == "") return;
-
-                    if (!callback(value)) $(this).val("");
-                    return false;
-                });
-            }
+        <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8/dojo/dojo.js">
+        </script>                
+        <script>
+            require(
+                [
+                    "dojo/query", "amitu/NodeList-on_enter",
+                    "amitu/NodeList-focus"
+                ], function(query){
+                query("#inp").on_enter(function(line){print(line)}).focus();
+                }
+            );
+        </script>
+                
+        <script src="http://www.parsecdn.com/js/parse-1.0.15.min.js"></script>
+        <script>
             Parse.initialize(
                 "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
                 "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
             );
             function print(msg) {
-                $("#log").append("<div>" + msg + "</div>");
+                //$("#log").append("<div>" + msg + "</div>");
+                console.log(msg);
             }
-            $("#inp").on_enter(function(line){
-                print(line);
-            }).focus();
-            var TestObject = Parse.Object.extend("TestObject");
-            var testObject = new TestObject();
-            // signin/signup
-            var current = Parse.User.current();
 
-            testObject.save({"uppu_foo": encrypt($("#somefield").val(), pass)}, {
-                success: function(object) {
-                    $(".success").show();
-                },
-                error: function(model, error) {
-                    $(".error").show();
-                }
-            });
             print([
                 "<pre>",
                 "                      _   _ ",
