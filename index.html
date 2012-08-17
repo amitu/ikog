@@ -1,35 +1,34 @@
 <!doctype html>
 <html>
     <head>
-        <title>iKog</title>
-        <link rel="stylesheet" href="style.css">
+        <title>iKog</title> <link rel="stylesheet" href="style.css">
     </head>
     <body class="claro">
         <div 
             data-dojo-type="dijit/layout/BorderContainer"
             data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true" 
             id="borderContainer">
-            <div 
+            <div
                 data-dojo-type="dijit/layout/BorderContainer"
-                data-dojo-props="splitter:true, region:'leading'" 
+                data-dojo-props="splitter:true, region:'leading'"
                 style="width: 720px;">
-                <div 
-                    data-dojo-type="dijit/layout/ContentPane" 
+                <div
+                    data-dojo-type="dijit/layout/ContentPane"
                     style="width: 100%"
                     data-dojo-props="region:'center'" id="log">
                 </div>
-                <div 
+                <div
                     data-dojo-type="dijit/layout/ContentPane"
                     data-dojo-props="splitter:false, region:'bottom'">
                     <input id="inp">
-                </div>                                
+                </div>
             </div>
-            <div 
+            <div
                 data-dojo-type="dijit/layout/ContentPane"
                 data-dojo-props="splitter:true, region:'center'">
                 Hi, I'm right pane
             </div>
-        </div>            
+        </div>
         <script>
             var dojoConfig = {
                 async: true,
@@ -40,13 +39,13 @@
             };
         </script>
         <script src="//ajax.googleapis.com/ajax/libs/dojo/1.8/dojo/dojo.js">
-        </script>                
+        </script>
         <script>
             require(
                 [
-                    "ikog/ikog", "dojo/parser", "dijit/layout/ContentPane",
+                    "ikog/ikog", "dijit/layout/ContentPane",
                     "dijit/layout/BorderContainer", "dojo/domReady!"
-                ], 
+                ],
                 function(ikog){ ikog.main() }
             );
         </script>
