@@ -11,6 +11,8 @@ define(
         helptxt
 	) {
 		var ikog = {
+			MAGIC_TAG: "#!<^",
+			ENCRYPTION_MARKER: "{}--xx",
 			init: function() {
 				parser.parse();
 				Parse.initialize(
@@ -45,10 +47,38 @@ define(
 			show_help: function() {
 				ikog.pager = new PausePager(helptxt.split("\n"));
 			},
+			parse_input: function(line) {
+				var cmd = "", rest = "";
+				if (line.indexOf(this.MAGIC_TAG) == 0)
+	                this.print_error(
+						"You cannot begin lines with the sequence " + this.MAGIC_TAG
+					)
+				else if (line.indexOf(this.ENCRYPTION_MARKER) == 0)
+	                this.print_error(
+						"You cannot begin lines with the sequence " + this.ENCRYPTION_MARKER
+					)
+				else {
+	                var n = line.indexOf(" ")
+	                if (n >= 0) {
+	                    cmd = line.substring(0, n);
+	                    rest = line.substring(n + 1);
+					}
+	                else {
+	                    cmd = line;
+	                    rest = "";
+					}
+				}
+		        return {cmd: cmd, rest: rest};
+			},
 			process_line: function(line) {
+				
 				console.log("process_line", line, this.pager);
 				if (this.pager) return this.pager.process_line(line);
+				
+				line = this.parse_input(line);
+				console.log(line);
 				ikog.println(line);
+				
 				if (line == "?") return this.println(quicktxt);
 				if (line == "cls") return this.clear_screen();
 				if (line == "help") return this.show_help();
