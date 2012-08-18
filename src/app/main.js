@@ -3,12 +3,13 @@ define(
 	    "require", "dojo/query", "dojo/parser", "dojo/text!app/banner.txt",
         "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
         "dojo/text!app/quick.txt", "dojo/text!app/help.txt",
-        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
-        "dijit/layout/ContentPane", "dijit/layout/BorderContainer"        
+        "dojo/text!app/info.txt", "amitu/NodeList-on_enter",
+        "amitu/NodeList-focus", "dijit/layout/ContentPane",
+        "dijit/layout/BorderContainer"
 	], 
 	function(		
 		require, query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt,
-        helptxt
+        helptxt, infotxt
 	) {
 		var ikog = {
 			MAGIC_TAG: "#!<^",
@@ -111,12 +112,16 @@ define(
 					this.print_current = false;
 					return this.println(quicktxt);
 				}
-				else if (cmd == "CLS") return this.clear_screen();
+				else if (cmd == "CLS" || cmd == "CLEARSCREEN") 
+					return this.clear_screen();
 				else if (cmd == "HELP") {
 					this.print_current = false;
 					return this.show_help();
 				}
-				
+				else if (cmd == "VER" || cmd == "VERSION") {
+					this.print_current = false;
+					return this.println(infotxt);
+				}
 			}
 		}
 		ikog.$inp = query("#inp");
