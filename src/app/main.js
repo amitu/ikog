@@ -1,16 +1,17 @@
 define(
 	[
-	    "dojo/query", "dojo/parser", "dojo/text!ikog/banner.txt", 
-		"dojo/dom-construct", "dojo/window", "ikog/Pager", "ikog/PausePager",
-		"dojo/text!ikog/quick.txt", "dojo/text!ikog/help.txt",
-		"amitu/NodeList-on_enter", "amitu/NodeList-focus", 
-		"http://www.parsecdn.com/js/parse-1.0.15.min.js"
+	    "require", "dojo/query", "dojo/parser", "dojo/text!app/banner.txt",
+        "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
+        "dojo/text!app/quick.txt", "dojo/text!app/help.txt",
+        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
+        "dijit/layout/ContentPane", "dijit/layout/BorderContainer"        
 	], 
-	function(
-		query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt, helptxt
+	function(		
+		require, query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt,
+        helptxt
 	) {
 		var ikog = {
-			main: function() {
+			init: function() {
 				parser.parse();
 				Parse.initialize(
 	                "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
@@ -56,6 +57,7 @@ define(
 		ikog.$inp = query("#inp");
 		ikog.log_id = 0;
 		ikog.pager = undefined;
+		require(["dojo/domReady!"], function(){ikog.init()});
 		return ikog;
 	}
 );

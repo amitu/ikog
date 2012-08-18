@@ -1,4 +1,4 @@
-define(["dojo/_base/declare", "ikog/Pager"], function(declare, Pager) {
+define(["dojo/_base/declare", "app/Pager"], function(declare, Pager) {
 	return declare(Pager, {
 		PAUSE: "!PAUSE!",
 		print_once: function() {
