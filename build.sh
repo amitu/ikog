@@ -59,4 +59,9 @@ perl -pe "
   s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script app/run
   s/\s+/ /g;                                 # Collapse white-space" > "$DISTDIR/index.html"
 
+cp dist/index.html ../ikog/
+cp dist/app/resources/app.css ../ikog/app/resources
+cp dist/dojo/dojo.js ../ikog/dojo
+cp dist/dojo/nls/dojo_en-us.js ../ikog/dojo/nls
+
 echo "Build complete"
