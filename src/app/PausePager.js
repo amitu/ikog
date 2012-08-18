@@ -12,13 +12,10 @@ define(["dojo/_base/declare", "app/Pager"], function(declare, Pager) {
 			var lines_to_display = lines.slice(0, i);
 			for (i=0; i < lines_to_display.length; i++)
 			{
-				this.ikog.println(lines_to_display[i]);
+				ikog.println(lines_to_display[i]);
 			}
-			if (!this.done()) {
-				this.ikog.println(
-					"--- Press enter for more. Enter s to skip ---"
-				);
-			}
+			if (!this.done())
+				ikog.println("--- Press enter for more. Enter s to skip ---");
 		}
 	});
 });

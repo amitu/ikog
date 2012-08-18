@@ -39,11 +39,11 @@ define(
 				ikog.println("Enter HELP for instructions.");	      
 			},
 			page: function(lines) {
-				ikog.pager = new Pager(ikog, lines);
+				ikog.pager = new Pager(lines);
 				if (ikog.pager.done()) this.pager = undefined;
 			},
 			show_help: function() {
-				ikog.pager = new PausePager(ikog, helptxt.split("\n"));
+				ikog.pager = new PausePager(helptxt.split("\n"));
 			},
 			process_line: function(line) {
 				console.log("process_line", line, this.pager);
@@ -57,6 +57,7 @@ define(
 		ikog.$inp = query("#inp");
 		ikog.log_id = 0;
 		ikog.pager = undefined;
+		window.ikog = ikog;
 		require(["dojo/domReady!"], function(){ikog.init()});
 		return ikog;
 	}
