@@ -1,27 +1,30 @@
 define(
 	[
-	    "require", "dojo/query", "dojo/parser", "dojo/text!app/banner.txt",
+	    "require", "dojo/query", "dojo/parser", "dojo/text!./banner.txt",
         "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
         "dojo/text!app/quick.txt", "dojo/text!app/help.txt",
-        "dojo/text!app/info.txt", "amitu/NodeList-on_enter",
+        "dojo/text!app/info.txt", "app/TodoList", "amitu/NodeList-on_enter",
         "amitu/NodeList-focus", "dijit/layout/ContentPane",
         "dijit/layout/BorderContainer"
 	], 
 	function(		
 		require, query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt,
-        helptxt, infotxt
+        helptxt, infotxt, ToDoList
 	) {
 		var ikog = {
 			MAGIC_TAG: "#!<^",
 			ENCRYPTION_MARKER: "{}--xx",
 			print_current: true,
-			review: false,
+			log_id: 0,
+			pager: undefined,
 			init: function() {
+				this.todo_list = new ToDoList();
 				parser.parse();
 				Parse.initialize(
 	                "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
 	                "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
 	            );
+				ikog.$inp = query("#inp");
 				ikog.$inp.focus().on_enter(function(line){
 					ikog.process_line(line);
 					ikog.print_current_if_required();
@@ -37,17 +40,15 @@ define(
 				);
 				win.scrollIntoView("log_msg_" + ikog.log_id);
 			},
+			print_error: function(msg) {
+				this.println("ERROR: " + msg);
+			},
 			print_line: function() {
 				this.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			},
 			print_current_if_required: function(){
 				if (!this.print_current) return;
-				this.print_line();
-				this.println("[00] send mail to coupan owners");
-				this.println("Priority: 05")
-				this.println("Context:  @Anywhere")
-				this.println("Created: [2009-03-10]")
-				this.print_line();				
+				this.todo_list.print_current();
 			},
 			clear_screen: function() {
 				dc.empty("log");
@@ -122,11 +123,81 @@ define(
 					this.print_current = false;
 					return this.println(infotxt);
 				}
+				else if (cmd == "SAVE" || cmd == "S") this.todo_list.save()
+				else if (cmd == "AUTOSAVE" || cmd == "AS") {
+					if (line.rest == "")
+	                    this.print_error(
+							"You must enter ON or OFF for the autosave command"
+						)
+	                else
+	                    this.todo_list.set_autosave(
+							line.rest.toUpperCase() == "ON"
+						)	           
+				}
+				else if (cmd == "REVIEW" || cmd == "REV") {
+					if (line.rest == "")
+	                    this.print_error(
+							"You must enter ON or OFF for the review command"
+						)
+	                else
+	                    this.todo_list.set_review(
+							line.rest.toUpperCase() == "ON"
+						)	           
+				}
+				else if (cmd == "V0") this.todo_list.set_review(false)
+				else if (cmd == "V1") this.todo_list.set_review(true)
+				else if (cmd == "FILTER" || cmd == "FI" || cmd == "=")
+	                this.todo_list.set_filter(line.rest)
+	            else if (cmd == "NEXT" || cmd == "N") this.todo_list.goto_next()
+	            else if (cmd == "PREV" || cmd == "P") this.todo_list.goto_prev()
+				else if (cmd == "TOP" || cmd == "T" || cmd == "0")
+					this.todo_list.goto_top()
+				else if (cmd == "GO" || cmd == "G") 
+					this.todo_list.goto_task(line.rest)
+				else if (cmd == "IMMEDIATE" || cmd == "I" || cmd == "++")
+					this.todo_list.create_immediate_task(line.rest)
+				else if (cmd == "KILL" || cmd == "K" || cmd == "-" || cmd == "X")
+					this.todo_list.kill_task(line.rest)
+				else if (cmd == "ARCHIVE" || cmd == "DONE")
+					this.todo_list.archive_task(line.rest)
+				else if (cmd == "REP" || cmd == "R") 
+					this.todo_list.replace_task(line.rest)
+				else if (cmd == "SUB" || cmd == "S") 
+					this.todo_list.substitute_task(line.rest)
+				else if (cmd == "EDIT" || cmd == "E") 
+					this.todo_list.edit_task(line.rest)
+				else if (cmd == "MOD" || cmd == "M") 
+					this.todo_list.modify_task(line.rest)
+				else if (cmd == "EXTEND" || cmd == "E") 
+					this.todo_list.extend_task(line.rest)
+				else if (cmd == "FIRST" || cmd == "F") 
+					this.todo_list.make_first(line.rest)
+				else if (cmd == "LAST" || cmd == "L") 
+					this.todo_list.make_last(line.rest)
+				else if (cmd == "DOWN" || cmd == "D") 
+					this.todo_list.move_task_down(line.rest)
+				else if (cmd == "UP" || cmd == "U") 
+					this.todo_list.move_task_up(line.rest)
+				else if (cmd == "LIST" || cmd == "L") 
+					this.todo_list.list_tasks(line.rest)
+				else if (cmd == "@") 
+					this.todo_list.list_tasks_by_context(line.rest)
+				else if (cmd == ":P") 
+					this.todo_list.list_tasks_by_project(line.rest)
+				else if (cmd == ":D") 
+					this.todo_list.list_tasks_by_date(line.rest)
+				else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
+					this.todo_list.add_task(line.rest)
+	            else if (cmd == "NOTE" || cmd == "NOTES")
+					this.todo_list.add_note(line.rest)
+		        else if (line.orig.length > 10)
+					this.todo_list.add_task(line.orig)
+				else if (cmd.length > 0) {
+					this.print_error("Didn't understand. (Make sure you have a space after the command or your\nentry is longer than 10 characters)")
+					this.print_current = false;
+				}					
 			}
 		}
-		ikog.$inp = query("#inp");
-		ikog.log_id = 0;
-		ikog.pager = undefined;
 		window.ikog = ikog;
 		require(["dojo/domReady!"], function(){ikog.init()});
 		return ikog;
