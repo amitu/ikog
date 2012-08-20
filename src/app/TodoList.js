@@ -1,14 +1,17 @@
-define(["dojo/_base/declare"], function(declare) {
+define(["dojo/_base/declare", "./TodoItem"], function(declare, TodoItem) {
     return declare(null, {
         autosave: true,
         review: false,
         filter: "",
+        current_task: undefined,
+        constructor: function() {
+            this.todos = [];
+        },
         print_current: function() {
             ikog.print_line();
-            ikog.println("[00] send mail to coupan owners");
-            ikog.println("Priority: 05")
-            ikog.println("Context:  @Anywhere")
-            ikog.println("Created: [2009-03-10]")
+            if (this.current_task) { this.current_task.print() }
+            else
+                ikog.println("There are no tasks to be done.")
             ikog.print_line();              
         },
         save: function() {
@@ -87,10 +90,23 @@ define(["dojo/_base/declare"], function(declare) {
             ikog.println("kkog.todo_list.list_tasks_by_date()");
         },
         add_task: function(line) {
-            ikog.println("kkog.todo_list.add_task()");
+            var new_item;
+            try {
+                new_item = new TodoItem(line);
+            } catch (e) {
+                ikog.print_error(
+                    "Errors were found:\n" + e + "\nThe task was not added."
+                )                
+            }
+            if (new_item) {
+                this.todos.push(new_item);
+                this.sort_by_priority();
+            }
+            return new_item;
         },
         add_note: function(line) {
             ikog.println("kkog.todo_list.add_note()");
-        }
+        },
+        sort_by_priority: function () {}
     });
 });
