@@ -11,6 +11,11 @@ define(
         require, query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt,
         helptxt, infotxt, ToDoList
     ) {
+        if (!String.prototype.trim) {
+            String.prototype.trim = function() {
+                return this.replace(/^\s+|\s+$/g, "");
+            }
+        }
         var ikog = {
             MAGIC_TAG: "#!<^",
             ENCRYPTION_MARKER: "{}--xx",
@@ -28,7 +33,7 @@ define(
                 ikog.$inp.focus().on_enter(function(line){
                     ikog.process_line(line);
                     ikog.print_current_if_required();
-                }, true);
+                }, true); //on_ctrl("l", function(){ this.clear_screen() });
                 query("body").on("click", function(){ ikog.$inp.focus(); });
                 ikog.print_banner();
             },
@@ -187,7 +192,10 @@ define(
                 else if (cmd == ":D") 
                     this.todo_list.list_tasks_by_date(line.rest)
                 else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
-                    this.todo_list.add_task(line.rest)
+                    if (line.rest.trim() == "")
+                        this.print_error("You must enter task description")
+                    else
+                        this.todo_list.add_task(line.rest)                
                 else if (cmd == "NOTE" || cmd == "NOTES")
                     this.todo_list.add_note(line.rest)
                 else if (line.orig.length > 10)
