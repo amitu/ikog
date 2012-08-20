@@ -130,20 +130,24 @@ define(
                 }
                 else if (cmd == "SAVE" || cmd == "S") this.todo_list.save()
                 else if (cmd == "AUTOSAVE" || cmd == "AS") {
-                    if (line.rest == "")
+                    if (line.rest == "") {
                         this.print_error(
                             "You must enter ON or OFF for the autosave command"
-                        )
+                        );
+                        this.print_current = false;                        
+                    }
                     else
                         this.todo_list.set_autosave(
                             line.rest.toUpperCase() == "ON"
                         )              
                 }
                 else if (cmd == "REVIEW" || cmd == "REV") {
-                    if (line.rest == "")
+                    if (line.rest == "") {
                         this.print_error(
                             "You must enter ON or OFF for the review command"
-                        )
+                        );
+                        this.print_current = false;                        
+                    }
                     else
                         this.todo_list.set_review(
                             line.rest.toUpperCase() == "ON"
@@ -192,8 +196,10 @@ define(
                 else if (cmd == ":D") 
                     this.todo_list.list_tasks_by_date(line.rest)
                 else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
-                    if (line.rest.trim() == "")
+                    if (line.rest.trim() == "") {
                         this.print_error("You must enter task description")
+                        this.print_current = false;
+                    }
                     else
                         this.todo_list.add_task(line.rest)                
                 else if (cmd == "NOTE" || cmd == "NOTES")
