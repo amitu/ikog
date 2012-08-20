@@ -65,7 +65,7 @@ var profile = {
             // conditional dependencies in app/main (the other being app/Dialog) but we don’t want to have to make
             // extra HTTP requests for such tiny files.
             include: [
-                'dojo/dojo', 'dojo/i18n', 'dojo/domReady', 'app/run',
+                'dojo/dojo', 'dojo/i18n', 'dojo/domReady', 'app/run', 'dojo/text',
                 "dijit/layout/ContentPane", "dijit/layout/BorderContainer"
             ],
 

@@ -59,7 +59,7 @@ define(
                 dc.empty("log");
             },
             print_banner: function () {
-                ikog.println(bannertxt);
+                ikog.println(this.bannertxt);
                 ikog.println("Enter HELP for instructions.");         
                 this.print_current_if_required();
             },
@@ -213,7 +213,13 @@ define(
             }
         }
         window.ikog = ikog;
-        require(["dojo/domReady!"], function(){ikog.init()});
+        require(
+            ["dojo/text!./banner.txt", "dojo/domReady!"],
+            function(bannertxt){
+                ikog.bannertxt = bannertxt;
+                ikog.init()
+            }
+        );
         return ikog;
     }
 );
