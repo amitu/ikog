@@ -1,20 +1,15 @@
 define(
     [
-        "require", "dojo/query", "dojo/parser", "dojo/text!./banner.txt",
-        "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
-        "dojo/text!app/quick.txt", "dojo/text!app/help.txt",
-        "dojo/text!app/info.txt", "app/TodoList", "amitu/NodeList-on_enter",
-        "amitu/NodeList-focus", "dijit/layout/ContentPane",
-        "dijit/layout/BorderContainer"
+        "require", "dojo/query", "dojo/parser", "dojo/dom-construct",
+        "dojo/window", "app/Pager", "app/PausePager", "app/TodoList",
+        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
+        "dijit/layout/ContentPane", "dijit/layout/BorderContainer"
     ], 
-    function(       
-        require, query, parser, bannertxt, dc, win, Pager, PausePager, quicktxt,
-        helptxt, infotxt, ToDoList
-    ) {
+    function(require, query, parser, dc, win, Pager, PausePager, ToDoList) {
         if (!String.prototype.trim) {
             String.prototype.trim = function() {
                 return this.replace(/^\s+|\s+$/g, "");
-            }
+            };
         }
         var ikog = {
             MAGIC_TAG: "#!<^",
@@ -68,7 +63,7 @@ define(
                 if (ikog.pager.done()) this.pager = undefined;
             },
             show_help: function() {
-                ikog.pager = new PausePager(helptxt.split("\n"));
+                ikog.pager = new PausePager(this.helptxt.split("\n"));
             },
             parse_input: function(line) {
                 var cmd = "", rest = "", orig = line;
@@ -96,7 +91,6 @@ define(
             },
             next_task: function() {}, // TODO
             process_line: function(line) {
-                console.log("process_line", line, this.pager);
                 this.print_current = true;
                 if (this.pager) {
                     this.print_current = false;
@@ -116,7 +110,7 @@ define(
                 }
                 else if (cmd == "?") {
                     this.print_current = false;
-                    return this.println(quicktxt);
+                    return this.println(this.quicktxt);
                 }
                 else if (cmd == "CLS" || cmd == "CLEARSCREEN") 
                     return this.clear_screen();
@@ -126,7 +120,7 @@ define(
                 }
                 else if (cmd == "VER" || cmd == "VERSION") {
                     this.print_current = false;
-                    return this.println(infotxt);
+                    return this.println(this.infotxt);
                 }
                 else if (cmd == "SAVE" || cmd == "S") this.todo_list.save()
                 else if (cmd == "AUTOSAVE" || cmd == "AS") {
@@ -214,9 +208,17 @@ define(
         }
         window.ikog = ikog;
         require(
-            ["dojo/text!./banner.txt", "dojo/domReady!"],
-            function(bannertxt){
+            [
+                "dojo/text!app/banner.txt", "dojo/text!app/quick.txt",
+                "dojo/text!app/info.txt", "dojo/text!app/help.txt",
+                "dojo/domReady!"
+            ],
+            function(bannertxt, quicktxt, infotxt, helptxt){
+                console.log(bannertxt, quicktxt, infotxt, helptxt)
                 ikog.bannertxt = bannertxt;
+                ikog.quicktxt = quicktxt;
+                ikog.infotxt = infotxt;
+                ikog.helptxt = helptxt;
                 ikog.init()
             }
         );
