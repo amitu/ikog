@@ -63,6 +63,5 @@ cp dist/index.html ../ikog/
 cp dist/app/resources/app.css ../ikog/app/resources
 cp dist/dojo/dojo.js ../ikog/dojo
 cp dist/dojo/nls/dojo_en-us.js ../ikog/dojo/nls
-cp src/app/*.txt ../ikog/app/
 
 echo "Build complete"

@@ -2,10 +2,15 @@ define(
     [
         "require", "dojo/query", "dojo/parser", "dojo/dom-construct",
         "dojo/window", "app/Pager", "app/PausePager", "app/TodoList",
+        "dojo/text!./templates/banner.html", "dojo/text!./templates/info.html",
+        "dojo/text!./templates/help.html", "dojo/text!./templates/quick.html",
         "amitu/NodeList-on_enter", "amitu/NodeList-focus",
         "dijit/layout/ContentPane", "dijit/layout/BorderContainer"
     ], 
-    function(require, query, parser, dc, win, Pager, PausePager, ToDoList) {
+    function(
+        require, query, parser, dc, win, Pager, PausePager, ToDoList, bannertxt,
+        infotxt, helptxt, quicktxt
+    ) {
         if (!String.prototype.trim) {
             String.prototype.trim = function() {
                 return this.replace(/^\s+|\s+$/g, "");
@@ -54,7 +59,7 @@ define(
                 dc.empty("log");
             },
             print_banner: function () {
-                ikog.println(this.bannertxt);
+                ikog.println(bannertxt);
                 ikog.println("Enter HELP for instructions.");         
                 this.print_current_if_required();
             },
@@ -63,7 +68,7 @@ define(
                 if (ikog.pager.done()) this.pager = undefined;
             },
             show_help: function() {
-                ikog.pager = new PausePager(this.helptxt.split("\n"));
+                ikog.pager = new PausePager(helptxt.split("\n"));
             },
             parse_input: function(line) {
                 var cmd = "", rest = "", orig = line;
@@ -110,7 +115,7 @@ define(
                 }
                 else if (cmd == "?") {
                     this.print_current = false;
-                    return this.println(this.quicktxt);
+                    return this.println(quicktxt);
                 }
                 else if (cmd == "CLS" || cmd == "CLEARSCREEN") 
                     return this.clear_screen();
@@ -120,7 +125,7 @@ define(
                 }
                 else if (cmd == "VER" || cmd == "VERSION") {
                     this.print_current = false;
-                    return this.println(this.infotxt);
+                    return this.println(infotxt);
                 }
                 else if (cmd == "SAVE" || cmd == "S") this.todo_list.save()
                 else if (cmd == "AUTOSAVE" || cmd == "AS") {
@@ -191,15 +196,19 @@ define(
                     this.todo_list.list_tasks_by_date(line.rest)
                 else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
                     if (line.rest.trim() == "") {
-                        this.print_error("You must enter task description")
+                        this.print_error("You must enter task description");
                         this.print_current = false;
                     }
-                    else
-                        this.todo_list.add_task(line.rest)                
+                    else {
+                        if (!this.todo_list.add_task(line.rest))
+                            this.print_current = false;
+                    }
                 else if (cmd == "NOTE" || cmd == "NOTES")
                     this.todo_list.add_note(line.rest)
-                else if (line.orig.length > 10)
-                    this.todo_list.add_task(line.orig)
+                else if (line.orig.length > 10) {
+                    if (!this.todo_list.add_task(line.orig))
+                        this.print_current = false;
+                }
                 else if (cmd.length > 0) {
                     this.print_error("Didn't understand. (Make sure you have a space after the command or your\nentry is longer than 10 characters)")
                     this.print_current = false;
@@ -207,21 +216,7 @@ define(
             }
         }
         window.ikog = ikog;
-        require(
-            [
-                "dojo/text!app/banner.txt", "dojo/text!app/quick.txt",
-                "dojo/text!app/info.txt", "dojo/text!app/help.txt",
-                "dojo/domReady!"
-            ],
-            function(bannertxt, quicktxt, infotxt, helptxt){
-                console.log(bannertxt, quicktxt, infotxt, helptxt)
-                ikog.bannertxt = bannertxt;
-                ikog.quicktxt = quicktxt;
-                ikog.infotxt = infotxt;
-                ikog.helptxt = helptxt;
-                ikog.init()
-            }
-        );
+        require(["dojo/domReady!"], function(){ ikog.init() });
         return ikog;
     }
 );
