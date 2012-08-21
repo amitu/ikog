@@ -79,8 +79,12 @@ define(
             },
             list_tasks: function(line) {
                 ikog.print_line();
-                ikog.print_line();
                 array.map(this.todos, function(t) { t.print() });
+                ikog.print_line();
+                if (this.current_task) 
+                    this.current_task.print_as_current();
+                else
+                    ikog.println("Current:  no tasks")
                 ikog.print_line();
             },
             list_tasks_by_context: function(line) {
@@ -104,6 +108,7 @@ define(
                 if (new_item) {
                     this.todos.push(new_item);
                     this.sort_by_priority();
+                    this.current_task = new_item;
                 }
                 return new_item;
             },

@@ -12,13 +12,16 @@ define(["dojo/_base/declare"], function(declare) {
             this.parse(line);
         },
         print_verbose: function() {
-            ikog.println("[00] send mail to coupan owners");
+            ikog.println("[00] " + this.task);
             ikog.println("Priority: 05");
             ikog.println("Context:  @Anywhere");
             ikog.println("Created: [2009-03-10]" );
         },
         print: function(i) {
             ikog.println("[00] " + this.task);
+        },
+        print_as_current: function(i) {
+            ikog.println("Current: [00] " + this.task);
         },
         parse: function(line) {
             if (line == "foo") throw "eff you!"; 
