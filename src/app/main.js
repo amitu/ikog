@@ -53,6 +53,7 @@ define(
             },
             clear_screen: function() {
                 dc.empty("log");
+                this.println(bannertxt);
             },
             print_banner: function () {
                 ikog.println(bannertxt);
