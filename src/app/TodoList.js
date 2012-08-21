@@ -12,7 +12,7 @@ define(
             },
             print_current: function() {
                 ikog.print_line();
-                if (this.current_task) { this.current_task.print2() }
+                if (this.current_task) { this.current_task.print_verbose() }
                 else
                     ikog.println("There are no tasks to be done.")
                 ikog.print_line();              
@@ -78,7 +78,10 @@ define(
                 ikog.println("kkog.todo_list.move_task_up()");
             },
             list_tasks: function(line) {
-                ikog.println("kkog.todo_list.list_tasks()");
+                ikog.print_line();
+                ikog.print_line();
+                array.map(this.todos, function(t) { t.print() });
+                ikog.print_line();
             },
             list_tasks_by_context: function(line) {
                 ikog.println("kkog.todo_list.list_tasks_by_context()");

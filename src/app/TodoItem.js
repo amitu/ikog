@@ -11,11 +11,14 @@ define(["dojo/_base/declare"], function(declare) {
             this.nullDate = undefined;
             this.parse(line);
         },
-        print: function() {
+        print_verbose: function() {
             ikog.println("[00] send mail to coupan owners");
             ikog.println("Priority: 05");
             ikog.println("Context:  @Anywhere");
             ikog.println("Created: [2009-03-10]" );
+        },
+        print: function(i) {
+            ikog.println("[00] " + this.task);
         },
         parse: function(line) {
             if (line == "foo") throw "eff you!"; 

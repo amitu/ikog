@@ -181,8 +181,10 @@ define(
                     this.todo_list.move_task_down(line.rest)
                 else if (cmd == "UP" || cmd == "U") 
                     this.todo_list.move_task_up(line.rest)
-                else if (cmd == "LIST" || cmd == "L") 
-                    this.todo_list.list_tasks(line.rest)
+                else if (cmd == "LIST" || cmd == "L") {
+                    this.todo_list.list_tasks(line.rest);
+                    this.print_current = false;
+                }
                 else if (cmd == "@") 
                     this.todo_list.list_tasks_by_context(line.rest)
                 else if (cmd == ":P") 
