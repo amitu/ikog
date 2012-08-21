@@ -4,12 +4,12 @@ define(
         return declare(TodoList, {
             constructor: function() {
                 var lines = $.jStorage.get("ikog_tasks");
-                if (!lines) lines = [];
-                console.log("LSTodoList.constructor: ", lines);
+                if (!lines) lines = "";
+                lines = lines.split("\n");
                 this.inherited(arguments, [lines]);
             },
             save: function() {
-                $.jStorage.set("ikog_tasks", ["hi there"]);
+                $.jStorage.set("ikog_tasks", this.toString());
                 ikog.println("LSTodoList.save()");
             }
         });

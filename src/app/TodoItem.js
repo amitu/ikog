@@ -18,8 +18,11 @@ define(["dojo/_base/declare"], function(declare) {
             ikog.println("Created: [2009-03-10]" );
         },
         parse: function(line) {
-            if (line == "foo") throw "eff you!";            
+            if (line == "foo") throw "eff you!"; 
             this.task = line;
+        },
+        toString: function() {
+            return this.task;
         }
     });
 });
