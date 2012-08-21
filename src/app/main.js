@@ -211,9 +211,12 @@ define(
             }
         }
         window.ikog = ikog;
-        window.$ = {toJSON: JSON.stringify, evalJSON: JSON.parse}
+        window.$ = {toJSON: JSON.stringify, evalJSON: JSON.parse};
         require(
-            ["jstorage.js", "dojo/domReady!"], function(){ ikog.init(); }
+            [
+                "http://www.parsecdn.com/js/parse-1.0.15.min.js",
+                "jstorage.js", "dojo/domReady!"
+            ], function(){ ikog.init(); }
         );
         return ikog;
     }
