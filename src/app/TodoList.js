@@ -4,8 +4,11 @@ define(["dojo/_base/declare", "./TodoItem"], function(declare, TodoItem) {
         review: false,
         filter: "",
         current_task: undefined,
-        constructor: function() {
+        constructor: function(lines) {
             this.todos = [];
+            for (i in lines) {
+                this.add_task(lines[i]);
+            }
         },
         print_current: function() {
             ikog.print_line();
@@ -68,9 +71,6 @@ define(["dojo/_base/declare", "./TodoItem"], function(declare, TodoItem) {
         make_first: function(task) {
             ikog.println("kkog.todo_list.make_first()");
         },
-        make_last: function(task) {
-            ikog.println("kkog.todo_list.make_last()");
-        },
         move_task_down: function(task) {
             ikog.println("kkog.todo_list.move_task_down()");
         },
@@ -90,6 +90,7 @@ define(["dojo/_base/declare", "./TodoItem"], function(declare, TodoItem) {
             ikog.println("kkog.todo_list.list_tasks_by_date()");
         },
         add_task: function(line) {
+            console.log("add_task: ", line)
             var new_item;
             try {
                 new_item = new TodoItem(line);

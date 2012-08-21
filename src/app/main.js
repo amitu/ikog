@@ -1,21 +1,17 @@
 define(
     [
-        "require", "dojo/query", "dojo/parser", "dojo/dom-construct",
-        "dojo/window", "app/Pager", "app/PausePager", "app/TodoList",
-        "dojo/text!./templates/banner.html", "dojo/text!./templates/info.html",
-        "dojo/text!./templates/help.html", "dojo/text!./templates/quick.html",
-        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
-        "dijit/layout/ContentPane", "dijit/layout/BorderContainer"
+        "require", "dojo/_base/lang", "dojo/query", "dojo/parser",
+        "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
+        "./LSTodoList", "dojo/json", "dojo/text!./templates/banner.html",
+        "dojo/text!./templates/info.html", "dojo/text!./templates/help.html",
+        "dojo/text!./templates/quick.html", "amitu/NodeList-on_enter",
+        "amitu/NodeList-focus", "dijit/layout/ContentPane",
+        "dijit/layout/BorderContainer"
     ], 
     function(
-        require, query, parser, dc, win, Pager, PausePager, ToDoList, bannertxt,
-        infotxt, helptxt, quicktxt
+        require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,
+        JSON, bannertxt, infotxt, helptxt, quicktxt
     ) {
-        if (!String.prototype.trim) {
-            String.prototype.trim = function() {
-                return this.replace(/^\s+|\s+$/g, "");
-            };
-        }
         var ikog = {
             MAGIC_TAG: "#!<^",
             ENCRYPTION_MARKER: "{}--xx",
@@ -23,8 +19,8 @@ define(
             log_id: 0,
             pager: undefined,
             init: function() {
-                this.todo_list = new ToDoList();
-                parser.parse();
+                parser.parse();    
+                this.todo_list = new LSToDoList();
                 Parse.initialize(
                     "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
                     "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
@@ -180,8 +176,6 @@ define(
                     this.todo_list.extend_task(line.rest)
                 else if (cmd == "FIRST" || cmd == "F") 
                     this.todo_list.make_first(line.rest)
-                else if (cmd == "LAST" || cmd == "L") 
-                    this.todo_list.make_last(line.rest)
                 else if (cmd == "DOWN" || cmd == "D") 
                     this.todo_list.move_task_down(line.rest)
                 else if (cmd == "UP" || cmd == "U") 
@@ -195,7 +189,7 @@ define(
                 else if (cmd == ":D") 
                     this.todo_list.list_tasks_by_date(line.rest)
                 else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
-                    if (line.rest.trim() == "") {
+                    if (lang.trim(line.rest) == "") {
                         this.print_error("You must enter task description");
                         this.print_current = false;
                     }
@@ -216,7 +210,10 @@ define(
             }
         }
         window.ikog = ikog;
-        require(["dojo/domReady!"], function(){ ikog.init() });
+        window.$ = {toJSON: JSON.stringify, evalJSON: JSON.parse}
+        require(
+            ["jstorage.js", "dojo/domReady!"], function(){ ikog.init(); }
+        );
         return ikog;
     }
 );

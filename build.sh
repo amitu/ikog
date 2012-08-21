@@ -59,6 +59,8 @@ perl -pe "
   s/<script src=\"$LOADERMID.*?\/script>//;  # Remove script app/run
   s/\s+/ /g;                                 # Collapse white-space" > "$DISTDIR/index.html"
 
+cp src/jstorage.js dist
+cp src/jstorage.js ../ikog/
 cp dist/index.html ../ikog/
 cp dist/app/resources/app.css ../ikog/app/resources
 cp dist/dojo/dojo.js ../ikog/dojo
