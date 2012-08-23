@@ -8,7 +8,9 @@ define(
             current_task: undefined,
             constructor: function(lines) {
                 this.todos = [];
-                array.map(lines, function(line) { this.add_task(line)}, this);
+                array.map(
+                    lines, function(line) { if (line) this.add_task(line)}, this
+                );
             },
             print_current: function() {
                 ikog.print_line();
@@ -79,7 +81,7 @@ define(
             },
             list_tasks: function(line) {
                 ikog.print_line();
-                array.map(this.todos, function(t) { t.print() });
+                for (i=0; i < this.todos.length; i++) this.todos[i].print(i);
                 ikog.print_line();
                 if (this.current_task) 
                     this.current_task.print_as_current();

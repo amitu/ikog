@@ -215,10 +215,8 @@ define(
         window.ikog = ikog;
         window.$ = {toJSON: JSON.stringify, evalJSON: JSON.parse};
         require(
-            [
-                "http://www.parsecdn.com/js/parse-1.0.15.min.js",
-                "jstorage.js", "dojo/domReady!"
-            ], function(){ ikog.init(); }
+            ["parse-1.0.15.min.js", "jstorage.js", "dojo/domReady!"], 
+            function(){ ikog.init(); }
         );
         return ikog;
     }
