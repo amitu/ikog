@@ -45,7 +45,7 @@
 					<h2>Use Local Storage?</h2>
 					<p>						
 						With local storage your todos are stored in your
-                        browser.
+                        browser. 
 					</p>
 					<p>
 						If you use this method, there is no need to creating an
@@ -70,20 +70,57 @@
                 </div>
                 <div
                     data-dojo-type="dijit/layout/ContentPane"
-                    style="height: 40%"
+                    style="height: 100%"
                     data-dojo-props="splitter:false, region:'top'">
-                    sign in
-                </div>
-                <div
-                    data-dojo-type="dijit/layout/ContentPane"
-                    style="height: 50%"
-                    data-dojo-props="splitter:false, region:'center'">
-                    sign up
+                    <h2>Signin Using Facebook?</h2>
+					<p>						
+						With this method, your todos are stored in the "cloud", 
+						and are accessible from anywhere.
+					</p>
+					<button 
+						data-dojo-type="dijit/form/Button" type="button">
+						Use Facebook
+					    <script 
+							type="dojo/on" 
+							data-dojo-event="click" data-dojo-args="evt">
+							Parse.FacebookUtils.logIn(null, {
+							  success: function(user) {
+								ikog.select_backend("parse");
+								storage_picker.hide();
+							  }
+							});
+					    </script>
+					</button>
                 </div>
             </div>
         </div>
+		<div id="fb-root"></div>
         <script data-dojo-config="async: 1, tlmSiblingOfDojo: 0, isDebug: 1"
                 src="dojo/dojo.js" defer></script>
         <script src="app/run.js" defer></script>
+        <script src="parse-1.0.15.min.js"></script>
+		<script>
+		  Parse.initialize(
+            "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
+            "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
+	      );        
+		  window.fbAsyncInit = function() {
+		    Parse.FacebookUtils.init({
+		      appId      : '459951637379181', 
+		      channelUrl : '//amitu.com/ikog/channel.html',
+		      status     : true,
+		      cookie     : true,
+		      xfbml      : true
+		    });
+		  };
+		  (function(d){
+		     var js, id = 'facebook-jssdk';
+			 var ref = d.getElementsByTagName('script')[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement('script'); js.id = id; js.async = true;
+		     js.src = "//connect.facebook.net/en_US/all.js";
+		     ref.parentNode.insertBefore(js, ref);
+		   }(document));
+		</script>
     </body>
 </html>

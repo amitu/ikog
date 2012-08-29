@@ -4,13 +4,14 @@ define(
         "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
         "./LSTodoList", "dojo/json", "dojo/text!./templates/banner.html",
         "dojo/text!./templates/info.html", "dojo/text!./templates/help.html",
-        "dojo/text!./templates/quick.html", "amitu/NodeList-on_enter",
-        "amitu/NodeList-focus", "dijit/layout/ContentPane", "dijit/Dialog",
+        "dojo/text!./templates/quick.html", "app/ParseTodoList",
+        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
+        "dijit/layout/ContentPane", "dijit/Dialog",
         "dijit/layout/BorderContainer", "dijit/form/Button"
     ], 
     function(
         require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,
-        JSON, bannertxt, infotxt, helptxt, quicktxt
+        JSON, bannertxt, infotxt, helptxt, quicktxt, ParseTodoList
     ) {
         var ikog = {
             MAGIC_TAG: "#!<^",
@@ -37,10 +38,6 @@ define(
                 if (backend === "localstore")
                     this.todo_list = new LSToDoList();
                 else if (backend === "parse") {
-                    Parse.initialize(
-                        "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
-                        "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
-                    );
                     this.todo_list = new ParseTodoList();
                 }
                 else {
@@ -50,7 +47,6 @@ define(
                 ikog.print_current_if_required();
             },
             show_backend_selector: function () {
-                console.log("backend selector");
                 storage_picker.show();
             },
             println: function(msg){
@@ -68,7 +64,6 @@ define(
                 this.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             },
             print_current_if_required: function(){
-                console.log("print_current_if_required", this.print_current, this, ikog);
                 if (!this.print_current) return;
                 this.todo_list.print_current();
             },
@@ -235,10 +230,7 @@ define(
         }
         window.ikog = ikog;
         window.$ = {toJSON: JSON.stringify, evalJSON: JSON.parse};
-        require(
-            ["parse-1.0.15.min.js", "jstorage.js", "dojo/domReady!"], 
-            function(){ ikog.init(); }
-        );
+        require(["jstorage.js", "dojo/domReady!"], function(){ ikog.init(); });
         return ikog;
     }
 );

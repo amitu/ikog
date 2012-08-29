@@ -10,7 +10,7 @@ define(
             },
             save: function() {
                 $.jStorage.set("ikog_tasks", this.toString());
-                ikog.println("LSTodoList.save()");
+                ikog.println("Saved.");
             }
         });
     }

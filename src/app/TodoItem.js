@@ -30,12 +30,10 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
             return undefined;
         },
         parse: function(line) {
-            console.log("TodoItem.parse", line);
             var words = line.split(" ")
             var start = 0
             for (i=0; i < words.length; i++) {
                 var word = words[i];
-                console.log("TodoItem.parse.for", word);
                 var wl = word.length;
                 var wt = lang.trim(word);
                 var wordUC = lang.trim(word).toUpperCase()
