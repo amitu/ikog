@@ -8,6 +8,18 @@ html, body {
     overflow:hidden;
 }
 
+#storage_picker_dialog {
+	width: 600px;
+	height: 400px;
+}
+
+#storage_picker_dialog  .dijitDialogCloseIcon { display: none }
+
+#borderContainer2 {
+    width: 100%;
+    height: 355px;	
+}
+
 #borderContainer {
     width: 100%;
     height: 100%;

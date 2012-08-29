@@ -5,8 +5,8 @@ define(
         "./LSTodoList", "dojo/json", "dojo/text!./templates/banner.html",
         "dojo/text!./templates/info.html", "dojo/text!./templates/help.html",
         "dojo/text!./templates/quick.html", "amitu/NodeList-on_enter",
-        "amitu/NodeList-focus", "dijit/layout/ContentPane",
-        "dijit/layout/BorderContainer"
+        "amitu/NodeList-focus", "dijit/layout/ContentPane", "dijit/Dialog",
+        "dijit/layout/BorderContainer", "dijit/form/Button"
     ], 
     function(
         require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,
@@ -19,19 +19,39 @@ define(
             log_id: 0,
             pager: undefined,
             init: function() {
-                parser.parse();    
-                this.todo_list = new LSToDoList();
-                Parse.initialize(
-                    "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
-                    "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
-                );
+                ikog.print_banner();
+                parser.parse();
+                var backend = $.jStorage.get("ikog_backend");
+                if  (backend === null)
+                    return ikog.show_backend_selector();
+                ikog.select_backend(backend);
                 ikog.$inp = query("#inp");
                 ikog.$inp.focus().on_enter(function(line){
                     ikog.process_line(line);
                     ikog.print_current_if_required();
                 }, true); //on_ctrl("l", function(){ this.clear_screen() });
                 query("body").on("click", function(){ ikog.$inp.focus(); });
-                ikog.print_banner();
+            },
+            select_backend: function(backend) {
+                $.jStorage.set("ikog_backend", backend);
+                if (backend === "localstore")
+                    this.todo_list = new LSToDoList();
+                else if (backend === "parse") {
+                    Parse.initialize(
+                        "hhWd0GF98p5ZwW3Z5LcR7jWsZhxt2OVocDjmuPfs", 
+                        "tF8ygbZgKxQIXRF3DjuyvmkiI3n8nGoFaX8cEqx0"
+                    );
+                    this.todo_list = new ParseTodoList();
+                }
+                else {
+                    ikog.print_error("Invalid backend: " + backend);
+                    return ikog.show_backend_selector();
+                }
+                ikog.print_current_if_required();
+            },
+            show_backend_selector: function () {
+                console.log("backend selector");
+                storage_picker.show();
             },
             println: function(msg){
                 ikog.log_id += 1;
@@ -48,6 +68,7 @@ define(
                 this.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             },
             print_current_if_required: function(){
+                console.log("print_current_if_required", this.print_current, this, ikog);
                 if (!this.print_current) return;
                 this.todo_list.print_current();
             },
@@ -58,7 +79,6 @@ define(
             print_banner: function () {
                 ikog.println(bannertxt);
                 ikog.println("Enter HELP for instructions.");         
-                this.print_current_if_required();
             },
             page: function(lines) {
                 ikog.pager = new Pager(lines);
@@ -149,6 +169,7 @@ define(
                             line.rest.toUpperCase() == "ON"
                         )              
                 }
+                else if (cmd == "BACKEND") this.show_backend_selector()
                 else if (cmd == "V0") this.todo_list.set_review(false)
                 else if (cmd == "V1") this.todo_list.set_review(true)
                 else if (cmd == "FILTER" || cmd == "FI" || cmd == "=")
