@@ -44,6 +44,7 @@ define(
                     ikog.print_error("Invalid backend: " + backend);
                     return ikog.show_backend_selector();
                 }
+                this.todo_list.set_filter("");
                 ikog.print_current_if_required();
             },
             show_backend_selector: function () {

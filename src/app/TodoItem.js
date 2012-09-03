@@ -10,6 +10,10 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
             this.nullDate = undefined;
             this.parse(line);
         },
+        matches: function(filter, rest) {
+            if (rest && -1 === this.task.indexOf(rest)) return false;
+            return -1 !== this.task.indexOf(filter);  
+        },
         print_verbose: function(i) {
             ikog.println("[" + i + "] " + this.task);
             ikog.println("Priority: " + this.priority);
