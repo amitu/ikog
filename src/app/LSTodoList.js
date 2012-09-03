@@ -3,10 +3,7 @@ define(
     function(declare, TodoList) {
         return declare(TodoList, {
             constructor: function() {
-                var lines = $.jStorage.get("ikog_tasks");
-                if (!lines) lines = "";
-                lines = lines.split("\n");
-                this.inherited(arguments, [lines]);
+                this.inherited(arguments, [$.jStorage.get("ikog_tasks")]);
             },
             save: function() {
                 $.jStorage.set("ikog_tasks", this.toString());

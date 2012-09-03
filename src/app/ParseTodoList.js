@@ -4,10 +4,7 @@ define(
         return declare(TodoList, {
             constructor: function() {
                 this.puser = Parse.User.current(); 
-                var lines = this.puser.get("ikog_tasks");
-                if (!lines) lines = "";
-                lines = lines.split("\n");
-                this.inherited(arguments, [lines]);
+                this.inherited(arguments, [this.puser.get("ikog_tasks")]);
             },
             save: function() {
                 this.puser.set("ikog_tasks", this.toString());

@@ -6,7 +6,10 @@ define(
             review: false,
             filter: "",
             current_task: undefined,
+            current_task_id: 42,
             constructor: function(lines) {
+                if (!lines) lines = "";
+                lines = lines.split("\n");                
                 this.todos = [];
                 array.map(
                     lines, function(line) { if (line) this.add_task(line)}, this
@@ -14,7 +17,8 @@ define(
             },
             print_current: function() {
                 ikog.print_line();
-                if (this.current_task) { this.current_task.print_verbose() }
+                if (this.current_task)
+                    this.current_task.print_verbose(this.current_task_id)
                 else
                     ikog.println("There are no tasks to be done.")
                 ikog.print_line();              
@@ -32,7 +36,6 @@ define(
             },
             set_filter: function (filter) {
                 this.filter = filter;
-                ikog.println("ikog.todo_list.filter = " + filter);          
             }, 
             goto_next: function() {
                 ikog.println("ikog.todo_list.next()");
@@ -79,12 +82,19 @@ define(
             move_task_up: function(task) {
                 ikog.println("kkog.todo_list.move_task_up()");
             },
-            list_tasks: function(line) {
+            _filter_allows: function(task, rest) {
+                if (rest && -1 === task.task.indexOf(rest)) return false;
+                return -1 !== task.task.indexOf(this.filter);
+            },
+            list_tasks: function(rest) {
                 ikog.print_line();
-                for (i=0; i < this.todos.length; i++) this.todos[i].print(i);
+                for (i=0; i < this.todos.length; i++) {
+                    if (this._filter_allows(this.todos[i], rest)) 
+                        this.todos[i].print(i);
+                }
                 ikog.print_line();
                 if (this.current_task) 
-                    this.current_task.print_as_current();
+                    this.current_task.print_as_current(this.current_task_id);
                 else
                     ikog.println("Current:  no tasks")
                 ikog.print_line();

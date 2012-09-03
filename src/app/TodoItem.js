@@ -24,7 +24,7 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
             ikog.println("[" + i + "] " + this.task);
         },
         print_as_current: function(i) {
-            ikog.println("Current: [00] " + this.task);
+            ikog.println("Current: [" + i + "] " + this.task);
         },
         parse_date: function(word){
             return undefined;
