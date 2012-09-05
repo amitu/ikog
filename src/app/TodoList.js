@@ -36,23 +36,39 @@ define(
             },
             set_filter: function (filter) {
                 this.filter = filter;
+                this.goto_top();
+            },
+            goto_next: function() {
+                var filtered_tasks = this._filtered_tasks();
+                if (filtered_tasks.length === 0) return;
+                this.current_task_id += 1;
+                if (filtered_tasks.length <= this.current_task_id)
+                    this.current_task_id = 0;
+                this.current_task = filtered_tasks[this.current_task_id];
+            },
+            goto_prev: function() {
+                var filtered_tasks = this._filtered_tasks();
+                if (filtered_tasks.length === 0) return;
+                this.current_task_id -= 1;
+                if (this.current_task_id < 0)
+                    this.current_task_id = filtered_tasks.length - 1;
+                this.current_task = filtered_tasks[this.current_task_id];
+            },
+            goto_top: function() {
                 var filtered_tasks = this._filtered_tasks();
                 if (filtered_tasks.length) {
                     this.current_task = filtered_tasks[0];
                     this.current_task_id = 0;
                 }
             },
-            goto_next: function() {
-                ikog.println("ikog.todo_list.next()");
-            },
-            goto_prev: function() {
-                ikog.println("ikog.todo_list.prev()");
-            },
-            goto_top: function() {
-                ikog.println("ikog.todo_list.top()");
-            },
             goto_task: function(task) {
-                ikog.println("ikog.todo_list.goto_task()");
+                var filtered_tasks = this._filtered_tasks();
+                if (filtered_tasks.length === 0) return;
+                task = parseInt(task);
+                if (task < 0) task = 0;
+                if (task >= filtered_tasks.length) task = filter.length - 1;
+                this.current_task_id = task;
+                this.current_task = filtered_tasks[this.current_task_id];
             },
             create_immediate_task: function(line) {
                 ikog.println("ikog.todo_list.create_immediate_task()");

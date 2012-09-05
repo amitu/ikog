@@ -16,10 +16,9 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
         },
         print_verbose: function(i) {
             ikog.println("[" + i + "] " + this.task);
-            ikog.println("Priority: " + this.priority);
-            ikog.println("Context:  " + this.actions.join(","));
+            ikog.println("Context: " + this.actions.join(" "));
             if (this.projects.length) 
-                ikog.println("Project:  " + this.projects.join(","));
+                ikog.println("Project:  " + this.projects.join(" "));
             if (this.when)
                 ikog.println("When: [" + this.when + "]");
             ikog.println("Created: [2009-03-10]" );

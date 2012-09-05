@@ -174,8 +174,16 @@ define(
                 else if (cmd == "PREV" || cmd == "P") this.todo_list.goto_prev()
                 else if (cmd == "TOP" || cmd == "T" || cmd == "0")
                     this.todo_list.goto_top()
-                else if (cmd == "GO" || cmd == "G") 
-                    this.todo_list.goto_task(line.rest)
+                else if (cmd == "GO" || cmd == "G") {
+                    if (line.rest == "") {
+                        this.print_error(
+                            "You must enter task id for GO command."
+                        );
+                        this.print_current = false;                        
+                    }
+                    else
+                        this.todo_list.goto_task(line.rest);
+                }
                 else if (cmd == "IMMEDIATE" || cmd == "I" || cmd == "++")
                     this.todo_list.create_immediate_task(line.rest)
                 else if (cmd == "KILL" || cmd == "K" || cmd == "-" || cmd == "X")
