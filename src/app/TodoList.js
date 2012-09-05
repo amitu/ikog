@@ -36,14 +36,11 @@ define(
             },
             set_filter: function (filter) {
                 this.filter = filter;
-                for (i=0; i < this.todos.length; i++) {
-                    var task = this.todos[i];
-                    if (task.matches(this.filter)) {
-                        this.current_task_id = i;
-                        this.current_task = task;
-                        break;
-                    }
-                }                
+                var filtered_tasks = this._filtered_tasks();
+                if (filtered_tasks.length) {
+                    this.current_task = filtered_tasks[0];
+                    this.current_task_id = 0;
+                }
             },
             goto_next: function() {
                 ikog.println("ikog.todo_list.next()");
@@ -90,12 +87,19 @@ define(
             move_task_up: function(task) {
                 ikog.println("kkog.todo_list.move_task_up()");
             },
-            list_tasks: function(rest) {
-                ikog.print_line();
+            _filtered_tasks: function(rest) {
+                var todos = [];
                 for (i=0; i < this.todos.length; i++) {
                     var task = this.todos[i];
-                    if (task.matches(this.filter, rest)) task.print(i);
-                }
+                    if (task.matches(this.filter, rest)) todos.push(task);
+                }                
+                return todos;
+            },
+            list_tasks: function(rest) {
+                ikog.print_line();
+                var filtered_tasks = this._filtered_tasks(rest);
+                for (i=0; i < filtered_tasks.length; i++) 
+                    filtered_tasks[i].print(i);
                 ikog.print_line();
                 if (this.current_task) 
                     this.current_task.print_as_current(this.current_task_id);
