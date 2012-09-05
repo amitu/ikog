@@ -142,28 +142,20 @@ define(
                 }
                 else if (cmd == "SAVE" || cmd == "S") this.todo_list.save()
                 else if (cmd == "AUTOSAVE" || cmd == "AS") {
-                    if (line.rest == "") {
-                        this.print_error(
-                            "You must enter ON or OFF for the autosave command"
-                        );
-                        this.print_current = false;                        
-                    }
+                    if (line.rest == "") this.todo_list.print_autosave();
                     else
                         this.todo_list.set_autosave(
                             line.rest.toUpperCase() == "ON"
                         )              
+                    this.print_current = false;
                 }
                 else if (cmd == "REVIEW" || cmd == "REV") {
-                    if (line.rest == "") {
-                        this.print_error(
-                            "You must enter ON or OFF for the review command"
-                        );
-                        this.print_current = false;                        
-                    }
+                    if (line.rest == "") this.todo_list.print_review();
                     else
                         this.todo_list.set_review(
                             line.rest.toUpperCase() == "ON"
                         )              
+                    this.print_current = false;
                 }
                 else if (cmd == "BACKEND") this.show_backend_selector()
                 else if (cmd == "V0") this.todo_list.set_review(false)
