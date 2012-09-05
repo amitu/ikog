@@ -47,16 +47,16 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
                 
                 if (word[0] == "@" && wl > 1) 
                     this.actions.push(wt);
-                else if (word[0]== "#" && wl > 1 && self.priority == -1) {
-                    var pri = parseInt(word.substring(1));
-                    if (pri == NaN) throw "Did not understand priority."
-                    if (pri < 1)  pri = 0
-                    if (pri > 10) pri = 10
-                    this.priority = pri;
-                }
-                else if (wordUC.substring(0, 2) == ":P" && len(word) > 2)
-                    this.projects.append(wt.substring(2))
-                else if (wordUC.substring(0, 2) == ":D" && len(word) > 2)
+                // else if (word[0]== "#" && wl > 1 && self.priority == -1) {
+                //     var pri = parseInt(word.substring(1));
+                //     if (pri == NaN) throw "Did not understand priority."
+                //     if (pri < 1)  pri = 0
+                //     if (pri > 10) pri = 10
+                //     this.priority = pri;
+                // }
+                else if (word[0] == "#" && wl > 1)
+                    this.projects.push(wt)
+                else if (wordUC.substring(0, 2) == ":D" && wl > 2)
                     this.when = this.parse_date(wt.substring(2))
                 else
                     this.task = this.task + wt + " "
@@ -66,6 +66,7 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
         toString: function() {
             var t = this.task;
             if (this.actions) t += this.actions.join(" ");
+            if (this.projects) t += " " + this.projects.join(" ");
             return t;
         }
     });
