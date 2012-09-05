@@ -124,7 +124,7 @@ define(
                 if (new_item) {
                     this.todos.push(new_item);
                     this.sort_by_priority();
-                    this.current_task = new_item;
+                    if (!this.current_task) this.current_task = new_item;
                 }
                 return new_item;
             },
