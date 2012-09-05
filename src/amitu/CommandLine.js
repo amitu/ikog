@@ -6,12 +6,12 @@ define(
         return declare([_WidgetBase, Evented], {
             postCreate: function() {
                 var self = this;
-                var $domNode = query(this.domNode);
-                $domNode.focus().on("keypress", function(evt) {
+                self.$domNode = query(this.domNode);
+                self.$domNode.focus().on("keypress", function(evt) {
                     var key = evt.charCode || evt.keyCode || 0;
                     if (key != keys.ENTER) return;
-                    self.emit("command", $domNode.val());
-                    $domNode.val("");
+                    self.emit("command", self.$domNode.val());
+                    self.$domNode.val("");
                 });
             }
         });
