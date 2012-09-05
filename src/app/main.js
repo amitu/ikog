@@ -5,13 +5,13 @@ define(
         "./LSTodoList", "dojo/json", "dojo/text!./templates/banner.html",
         "dojo/text!./templates/info.html", "dojo/text!./templates/help.html",
         "dojo/text!./templates/quick.html", "app/ParseTodoList",
-        "amitu/NodeList-on_enter", "amitu/NodeList-focus",
+        "dijit/registry", "amitu/NodeList-on_enter", "amitu/NodeList-focus",
         "dijit/layout/ContentPane", "dijit/Dialog",
-        "dijit/layout/BorderContainer", "dijit/form/Button"
+        "dijit/layout/BorderContainer", "dijit/form/Button", "amitu/CommandLine"
     ], 
     function(
         require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,
-        JSON, bannertxt, infotxt, helptxt, quicktxt, ParseTodoList
+        JSON, bannertxt, infotxt, helptxt, quicktxt, ParseTodoList, registry
     ) {
         var ikog = {
             MAGIC_TAG: "#!<^",
@@ -26,12 +26,12 @@ define(
                 if  (backend === null)
                     return ikog.show_backend_selector();
                 ikog.select_backend(backend);
-                ikog.$inp = query("#inp");
-                ikog.$inp.focus().on_enter(function(line){
-                    ikog.process_line(line);
-                    ikog.print_current_if_required();
-                }, true); //on_ctrl("l", function(){ this.clear_screen() });
-                query("body").on("click", function(){ ikog.$inp.focus(); });
+                registry.byId("inp").on("command", ikog.handle_command);
+                query("body").on("click", function(){ query("#inp").focus(); });
+            },
+            handle_command: function(command) {
+                ikog.process_line(command);
+                ikog.print_current_if_required();                
             },
             select_backend: function(backend) {
                 $.jStorage.set("ikog_backend", backend);
