@@ -210,12 +210,18 @@ define(
                     this.todo_list.list_tasks(line.rest);
                     this.print_current = false;
                 }
-                else if (cmd == "@") 
-                    this.todo_list.list_tasks_by_context(line.rest)
-                else if (cmd == ":P") 
-                    this.todo_list.list_tasks_by_project(line.rest)
-                else if (cmd == ":D") 
-                    this.todo_list.list_tasks_by_date(line.rest)
+                else if (cmd == "@") {
+                    this.todo_list.list_tasks_by_context(line.rest);
+                    this.print_current = false;
+                }
+                else if (cmd == "#") {
+                    this.todo_list.list_tasks_by_project(line.rest);
+                    this.print_current = false;
+                }
+                else if (cmd == ":D")  {
+                    this.todo_list.list_tasks_by_date(line.rest);
+                    this.print_current = false;
+                }
                 else if (cmd == "ADD" || cmd == "A" || cmd == "+") 
                     if (lang.trim(line.rest) == "") {
                         this.print_error("You must enter task description");

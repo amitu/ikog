@@ -127,7 +127,38 @@ define(
                 ikog.println("kkog.todo_list.list_tasks_by_context()");
             },
             list_tasks_by_project: function(line) {
-                ikog.println("kkog.todo_list.list_tasks_by_project()");
+                var projects = {};
+                for (i=0; i < this.todos.length; i++) {
+                    var task = this.todos[i];
+                    if (task.projects.length === 0) {
+                        if (projects["No Project"]) 
+                            projects["No Project"].push(task);
+                        else
+                            projects["No Project"] = [task];
+                        continue;
+                    }
+                    for (j=0; j < task.projects.length; j++) {
+                        if (projects[task.projects[j]])
+                            projects[task.projects[j]].push(task);
+                        else
+                            projects[task.projects[j]] = [task];
+                    }
+                }
+                ikog.print_line();
+                var first = true;
+                for (project in projects) {
+                    if (first) first = false;
+                    else ikog.println("&nbsp;");
+                    ikog.println(project);
+                    for (i=0; i < projects[project].length; i ++)
+                        projects[project][i].print(i);
+                }
+                ikog.print_line();
+                if (this.current_task) 
+                    this.current_task.print_as_current(this.current_task_id);
+                else
+                    ikog.println("Current:  no tasks")
+                ikog.print_line();
             },
             list_tasks_by_date: function(line) {
                 ikog.println("kkog.todo_list.list_tasks_by_date()");
