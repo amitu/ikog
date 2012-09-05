@@ -64,7 +64,7 @@ cp src/jstorage.js src/parse-1.0.15.min.js dist
 # cp src/channel.html ../ikog/
 cp src/channel.html dist
 # cp dist/index.html ../ikog/
-cp dist/app/resources/app.css ../ikog/app/resources
+#cp dist/app/resources/app.css ../ikog/app/resources
 # cp dist/dojo/dojo.js ../ikog/dojo
 # cp dist/dojo/nls/dojo_en-us.js ../ikog/dojo/nls
 
