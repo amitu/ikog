@@ -13,5 +13,12 @@ cp dist/index.html index.html
 cp dist/dojo/dojo.js dojo/dojo.js
 cp dist/dojo/nls/dojo_en-us.js dojo/nls/dojo_en-us.js
 
-git commit -am "synced gh-pages from latest build on master"
+if ! git diff-index --quiet HEAD --; then
+    git commit -am "synced gh-pages from latest build on master"
+    echo "you may want to run git push --all now."
+else
+    echo "there are no changes, wasting my time useless idiot?"
+fi
+
 git checkout master
+
