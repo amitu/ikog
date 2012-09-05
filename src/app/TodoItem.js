@@ -24,11 +24,13 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
                 ikog.println("When: [" + this.when + "]");
             ikog.println("Created: [2009-03-10]" );
         },
-        print: function(i) {
-            ikog.println("[" + i + "] " + this.task);
+        print: function(i, as_current) {
+            var t = "[" + i + "] " + this.toString();
+            if (as_current) t = "Current: " + t;
+            ikog.println(t);
         },
         print_as_current: function(i) {
-            ikog.println("Current: [" + i + "] " + this.task);
+            this.print(i, true);
         },
         parse_date: function(word){
             return undefined;
@@ -62,7 +64,9 @@ define(["dojo/_base/declare", "dojo/_base/lang"], function(declare, lang) {
             if (this.actions.length == 0) this.actions.push("@Anywhere")            
         },
         toString: function() {
-            return this.task;
+            var t = this.task;
+            if (this.actions) t += this.actions.join(" ");
+            return t;
         }
     });
 });

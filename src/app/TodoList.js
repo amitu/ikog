@@ -44,7 +44,7 @@ define(
                         break;
                     }
                 }                
-            }, 
+            },
             goto_next: function() {
                 ikog.println("ikog.todo_list.next()");
             },
