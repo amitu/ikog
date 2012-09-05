@@ -5,9 +5,10 @@ define(
         "./LSTodoList", "dojo/json", "dojo/text!./templates/banner.html",
         "dojo/text!./templates/info.html", "dojo/text!./templates/help.html",
         "dojo/text!./templates/quick.html", "app/ParseTodoList",
-        "dijit/registry", "amitu/NodeList-on_enter", "amitu/NodeList-focus",
-        "dijit/layout/ContentPane", "dijit/Dialog",
-        "dijit/layout/BorderContainer", "dijit/form/Button", "amitu/CommandLine"
+        "dijit/registry", "amitu/NodeList-focus", "dijit/layout/ContentPane",
+        "dijit/Dialog", "dijit/layout/BorderContainer", "dijit/form/Button",
+        "amitu/CommandLine",
+        "amitu/CommandLineWithHistory"
     ], 
     function(
         require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,

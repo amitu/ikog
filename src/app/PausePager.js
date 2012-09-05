@@ -1,4 +1,5 @@
 define(["dojo/_base/declare", "app/Pager"], function(declare, Pager) {
+    // console.log(Pager);
     return declare(Pager, {
         PAUSE: "!PAUSE!",
         print_once: function() {
