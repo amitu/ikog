@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+set -x
+
+if ! git diff-index --quiet HEAD --; then
+    echo "there are uncommitted changes, please commit first"
+    exit 2
+fi
+
+git checkout gh-pages
+
+cp dist/index.html index.html
+cp dist/dojo/dojo.js dojo/dojo.js
+cp dist/dojo/nls/dojo_en-us.js dojo/nls
+
+git commit -m "synced gh-pages from latest build on master"
+git checkout master
