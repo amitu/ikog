@@ -7,7 +7,6 @@ define(
         "dojo/text!./templates/quick.html", "app/ParseTodoList",
         "dijit/registry", "amitu/NodeList-focus", "dijit/layout/ContentPane",
         "dijit/Dialog", "dijit/layout/BorderContainer", "dijit/form/Button",
-        "amitu/CommandLine",
         "amitu/CommandLineWithHistory"
     ], 
     function(
