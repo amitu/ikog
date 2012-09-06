@@ -12,6 +12,7 @@ git checkout gh-pages
 cp dist/index.html index.html
 cp dist/dojo/dojo.js dojo/dojo.js
 cp dist/dojo/nls/dojo_en-us.js dojo/nls/dojo_en-us.js
+cp dist/dojo/nls/dojo_ROOT.js dojo/nls/dojo_ROOT.js
 cp dist/app/resources/app.css app/resources/app.css
 
 if ! git diff-index --quiet HEAD --; then
