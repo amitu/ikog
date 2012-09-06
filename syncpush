@@ -14,6 +14,8 @@ cp dist/dojo/dojo.js dojo/dojo.js
 cp dist/dojo/nls/dojo_en-us.js dojo/nls/dojo_en-us.js
 cp dist/dojo/nls/dojo_ROOT.js dojo/nls/dojo_ROOT.js
 cp dist/app/resources/app.css app/resources/app.css
+cp dist/dijit/nls/loading.js dijit/nls/loading.js
+cp dist/dijit/nlc/common.js dijit/nls/common.js
 
 if ! git diff-index --quiet HEAD --; then
     git commit -am "synced gh-pages from latest build on master"
