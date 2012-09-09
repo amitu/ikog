@@ -2,6 +2,8 @@ define(
     ["dojo/_base/declare", "dojo/_base/array", "app/TodoItem", "dojo/topic"], 
     function(declare, array, TodoItem, topic) {
         return declare(null, {
+            MAGIC_TAG: "#!<^",
+            ENCRYPTION_MARKER: "{}--xx",
             autosave: true,
             dirty: false,
             review: false,

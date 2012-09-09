@@ -6,6 +6,7 @@ define(["dojo/_base/declare"], function(declare) {
         constructor: function(lines) {
             this.remaining_lines = lines;
             this.print_once();
+            ikog.install_command_handler(this);
         },
         dump_state: function() {
             console.log("LINES_IN_PAGE", this.LINES_IN_PAGE);
@@ -25,14 +26,14 @@ define(["dojo/_base/declare"], function(declare) {
         done: function() {
             return this.remaining_lines.length == 0;
         },
-        process_line: function(line) {
+        handle_command: function(line) {
             if (line == "s") {
                 ikog.println("Skipped.");
-                ikog.pager = undefined;
+                ikog.reset_command_handler();
                 return;
             }
             this.print_once();
-            if (this.done()) ikog.pager = undefined;
+            if (this.done()) ikog.reset_command_handler();
         }
     })
 });
