@@ -16,12 +16,11 @@ define(
                     else widget.gonormal(key);
                 });
                 this.on("command", function(cmd) {
-                    this.history.push(cmd);
+                    if (this.history[this.history.length-1] != cmd)
+                        this.history.push(cmd);
                 });
-                console.log(this);
             },
             goup: function() {
-                // if index is zero, we have just started going up in history
                 if (this.index >= this.history.length) return;
                 if (this.index == 0) this.current_line = this.$domNode.val();
                 this.index += 1;
