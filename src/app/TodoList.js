@@ -21,6 +21,7 @@ define(
                 topic.publish("todolist/clean");
             },
             is_dirty: function() { return this.dirty },
+            is_review: function() { return this.review },
             print_current: function() {
                 ikog.print_line();
                 if (this.current_task)

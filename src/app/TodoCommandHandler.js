@@ -11,13 +11,15 @@ define(
             },
             parse_input: function(line) {
                 var cmd = "", rest = "", orig = line;
-                if (line.indexOf(this.MAGIC_TAG) == 0)
+                if (line.indexOf(ikog.todo_list.MAGIC_TAG) == 0)
                     ikog.print_error(
-                        "You cannot begin lines with the sequence " + this.MAGIC_TAG
+                        "You cannot begin lines with the sequence " + 
+                        ikog.todo_list.MAGIC_TAG
                     )
-                else if (line.indexOf(this.ENCRYPTION_MARKER) == 0)
+                else if (line.indexOf(ikog.todo_list.ENCRYPTION_MARKER) == 0)
                     ikog.print_error(
-                        "You cannot begin lines with the sequence " + this.ENCRYPTION_MARKER
+                        "You cannot begin lines with the sequence " +
+                        ikog.todo_list.ENCRYPTION_MARKER
                     )
                 else {
                     var n = line.indexOf(" ")
@@ -46,8 +48,8 @@ define(
                 var cmd = line.cmd.toUpperCase();
                 
                 if (cmd == "") {
-                    if (this.review) {
-                        this.next_task();
+                    if (ikog.todo_list.is_review()) {
+                        ikog.todo_list.next_task();
                     }
                 }
                 else if (cmd == "?") {
@@ -55,7 +57,7 @@ define(
                     return ikog.println(quicktxt);
                 }
                 else if (cmd == "CLS" || cmd == "CLEARSCREEN") 
-                    return this.clear_screen();
+                    return ikog.clear_screen();
                 else if (cmd == "HELP") {
                     this.print_current = false;
                     return ikog.show_help();
