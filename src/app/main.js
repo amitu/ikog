@@ -1,6 +1,6 @@
 define(
     [
-        "require", "dojo/_base/lang", "dojo/query", "dojo/parser",
+        "require", "dojo/query", "dojo/parser",
         "dojo/dom-construct", "dojo/window", "app/Pager", "app/PausePager",
         "./LSTodoList", "./TodoCommandHandler", "dojo/json",
         "dojo/text!./templates/banner.html", "dojo/text!./templates/help.html",
@@ -10,7 +10,7 @@ define(
         "amitu/CommandLineWithHistory"
     ], 
     function(
-        require, lang, query, parser, dc, win, Pager, PausePager, LSToDoList,
+        require, query, parser, dc, win, Pager, PausePager, LSToDoList,
         TodoCommandHandler, JSON, bannertxt, helptxt, ParseTodoList, registry
     ) {
         var ikog = {

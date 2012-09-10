@@ -16,7 +16,7 @@ define(
                     else widget.gonormal(key);
                 });
                 this.on("command", function(cmd) {
-                    if (this.history[this.history.length-1] != cmd)
+                    if (cmd != "" && this.history[this.history.length-1] != cmd)
                         this.history.push(cmd);
                 });
             },

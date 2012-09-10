@@ -1,9 +1,10 @@
 define(
     [
         "dojo/_base/declare", "dojo/text!./templates/quick.html",
-        "dojo/text!./templates/info.html",
-    ], function(declare, quicktxt, infotxt){
-        return declare(null, {
+        "dojo/_base/lang", "dojo/text!./templates/info.html",
+        "./CommandHandler", "./confirmer"
+    ], function(declare, quicktxt, lang, infotxt, CommandHandler, confirmer){
+        return declare(CommandHandler, {
             handle_command: function(command) {
                 this.process_line(command);
                 this.print_current_if_required();                                
@@ -80,7 +81,15 @@ define(
                         )              
                     this.print_current = false;
                 }
-                else if (cmd == "BACKEND") this.show_backend_selector()
+                else if (cmd == "BACKEND") {
+                    if (ikog.todo_list.is_dirty())
+                        confirmer({
+                            cb:ikog.show_backend_selector, 
+                            message: "There are unsaved changes, they will be lost, do you want to continue?"
+                        })
+                    else ikog.show_backend_selector()
+                    this.print_current = false;
+                }
                 else if (cmd == "V0") ikog.todo_list.set_review(false)
                 else if (cmd == "V1") ikog.todo_list.set_review(true)
                 else if (cmd == "FILTER" || cmd == "FI" || cmd == "=")

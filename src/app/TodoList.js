@@ -20,6 +20,7 @@ define(
                 topic.publish("todolist/initialized");
                 topic.publish("todolist/clean");
             },
+            is_dirty: function() { return this.dirty },
             print_current: function() {
                 ikog.print_line();
                 if (this.current_task)
