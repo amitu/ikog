@@ -1,6 +1,6 @@
 define(
-    ["dojo/_base/declare", "./TodoList"], 
-    function(declare, TodoList) {
+    ["dojo/_base/declare", "dojo/topic", "./TodoList"], 
+    function(declare, topic, TodoList) {
         return declare(TodoList, {
             constructor: function() {
                 this.puser = Parse.User.current(); 
